@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-
+git 
 npm test
-npx lint-staged
+npm test
+npm test
+npm test

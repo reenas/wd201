@@ -13,7 +13,6 @@ const todos = [
   { title: "File taxes", dueDate: tomorrow, completed: false },
   { title: "Pay electric bill", dueDate: tomorrow, completed: false },
 ];
-
 const addTestData = (add, todos) => todos.forEach(add);
 
 /* eslint-disable no-undef */
