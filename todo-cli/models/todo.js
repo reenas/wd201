@@ -1,7 +1,6 @@
 // models/todo.js
 "use strict";
 const { Model, Op } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -38,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async overdue() {
-      return await Todo.findAll({
+      const todos = await Todo.findAll({
         where: {
           dueDate: {
             [Op.lt]: new Date(),
@@ -46,10 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         order: [["id", "ASC"]],
       });
+      return todos;
     }
 
     static async dueToday() {
-      return await Todo.findAll({
+      const todos = await Todo.findAll({
         where: {
           dueDate: {
             [Op.eq]: new Date(),
@@ -57,10 +57,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         order: [["id", "ASC"]],
       });
+      return todos;
     }
 
     static async dueLater() {
-      return await Todo.findAll({
+      const todos = await Todo.findAll({
         where: {
           dueDate: {
             [Op.gt]: new Date(),
@@ -68,15 +69,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         order: [["id", "ASC"]],
       });
+      return todos;
     }
 
     static async markAsComplete(id) {
-      return Todo.update({ completed: true }, { where: { id: id } });
+      await Todo.update(
+        { completed: true },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
     }
 
     displayableString() {
-      const checkbox = this.completed ? "[x]" : "[ ]";
-      const displayDate =
+      let checkbox = this.completed ? "[x]" : "[ ]";
+      let displayDate =
         this.dueDate === new Date().toLocaleDateString("en-CA")
           ? ""
           : this.dueDate;
