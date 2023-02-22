@@ -83,7 +83,7 @@ module.exports = (sequelize, DataTypes) => {
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
       const day = new Date(this.dueDate);
-      return day.getDate() === new Date().toLocaleDateString("en-IN")
+      return day.getDate() === new Date().toLocaleDateString("en-CA")
         ? `${this.id}. ${checkbox} ${this.title}`.trim()
         : `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
     }
