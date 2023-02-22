@@ -80,6 +80,8 @@ module.exports = (sequelize, DataTypes) => {
         this.dueDate === new Date().toLocaleDateString("en-CA")
           ? ""
           : this.dueDate;
+          console.log(this.dueDate);
+          console.log(new Date().toLocaleDateString("en-CA"));
       return `${this.id}. ${checkbox} ${this.title} ${displayDate}`.trim();
     }
   }
