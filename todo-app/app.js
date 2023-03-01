@@ -1,10 +1,24 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const { Todo } = require("./models");
 
 app.use(bodyParser.json());
+
+app.set("view engine", "ejs");
+
+app.use(express.static(path.join(__dirname, "/public")));
+
+app.get("/", async (request, response) => {
+  const allTodos = await Todo.getAllTodos();
+  if (request.accepts("html")) {
+    response.render("index", { allTodos });
+  } else {
+    response.json({ allTodos });
+  }
+});
 
 app.get("/todos", async function (request, response) {
   console.log("Processing list of all Todos ...");
