@@ -6,7 +6,7 @@ var csrf = require("tiny-csrf");
 const path = require("path");
 const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
-const session = require("express-session");
+const session = require("cookie-session");
 const flash = require("connect-flash");
 
 const LocalStrategy = require("passport-local");
