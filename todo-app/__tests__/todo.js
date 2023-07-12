@@ -194,7 +194,7 @@ describe("List the todo items", function () {
     expect(deletedResponse.statusCode).toBe(200);
   });
 
-  test("Verfiy userB cannot delete todo of userA", async () => {
+  test("Verify user B cannot delete todo of user A", async () => {
     let agent = request.agent(server);
     await login(agent, "user.a@test.com", "12345678");
     let res = await agent.get("/todos");
@@ -230,7 +230,7 @@ describe("List the todo items", function () {
     expect(parsedDeleteResponse.success).toBe(false);
   });
 
-  test("Verfiy userB cannot update todo of userA", async () => {
+  test("Verify user B cannot update todo of user A", async () => {
     let agent = request.agent(server);
     await login(agent, "user.a@test.com", "12345678");
     let res = await agent.get("/todos");
