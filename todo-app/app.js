@@ -141,6 +141,7 @@ app.post("/users", async (request, response) => {
   const password = request.body.password.trim();
   if (password.length < 8) {
     request.flash("error", "Password should be minimum 8 characters");
+    return response.redirect("/signup");
   }
   const hashedPwd = await bcrypt.hash(password, saltRounds);
   // console.log(hashedPwd);
