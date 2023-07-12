@@ -4,51 +4,64 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="<%= csrfToken %>" />
-    <title>Todo Manager</title>
-    <link rel="stylesheet" href="/css/styles.css" />
-    <script src="/js/script.js"></script>
+    <title><%= title %></title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css" />
     <script>
-      const token = document
+      var token = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
-      function updateTodo(id, completed) {
+
+      function updateTodo(id, completionStatus) {
         fetch(`/todos/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ _csrf: token, completed }),
-        }).then((res) => {
-          if (res.ok) {
-            window.location.reload();
-          }
-        });
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            completed: completionStatus,
+            _csrf: token,
+          }),
+        })
+          .then((res) => {
+            window.location.reload(true);
+          })
+          .catch((err) => console.error(err));
       }
+
       function deleteTodo(id) {
+        console.log(id);
+
         fetch(`/todos/${id}`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ _csrf: token }),
-        }).then((res) => {
-          if (res.ok) {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            _csrf: token,
+          }),
+        })
+          .then((res) => {
             window.location.reload();
-          }
-        });
+          })
+          .catch((err) => console.error(err));
       }
     </script>
   </head>
+
   <body>
-    <div class="grid grid-cols-6 mt-5">
+    <div class="grid grid-cols-6">
       <div class="col-start-3 col-span-2">
         <%- include('header.ejs') %>
-        <form action="/todos" method="post">
+        <form action="/todos" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="flex gap-2 py-4">
             <div class="flex-auto">
               <input
                 type="text"
-                name="title"
                 placeholder="What's next?"
-                class="border border-gray-300text-gray-900 w-full rounded p-2 text-sm"
+                name="title"
+                class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm"
                 required
               />
             </div>
@@ -56,13 +69,14 @@
               <input
                 type="date"
                 name="dueDate"
-                class="border border-gray-300text-gray-900 w-full rounded p-2 text-sm leading-4"
+                class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm leading-4"
+                required
               />
             </div>
-            <div class="flex-auto">
+            <div class="flex-none">
               <button
                 type="submit"
-                class="bg-green-600 text-white px-5 py-1.5 rounded font-meduim mr-2 mb-2"
+                class="bg-green-600 text-white px-5 py-1.5 rounded font-medium mr-2 mb-2"
               >
                 Add
               </button>
@@ -70,13 +84,14 @@
           </div>
         </form>
         <div>
-          <%- include('todos.ejs', {title: "Overdue", todos: overdue}) %> <%-
-          include('todos.ejs', {title: "Due Today", todos: dueToday}) %> <%-
-          include('todos.ejs', {title: "Due Later", todos: dueLater}) %> <%-
-          include('todos.ejs', {title: "Completed Items", todos: completed}) %>
+          <%- include('todo.ejs', {title: "Overdue" , data: overdue, countID:
+          "count-overdue"}) %> <%- include('todo.ejs', {title: "Due Today" ,
+          data: dueToday, countID: "count-due-today"}) %> <%-
+          include('todo.ejs', {title: "Due Later" , data: dueLater, countID:
+          "count-due-later"}) %> <%- include('todo.ejs', {title: "Completed
+          items" , data: completed, countID: "count-completed"}) %>
         </div>
       </div>
     </div>
-    <%- include('footer.ejs') %>
   </body>
 </html>
