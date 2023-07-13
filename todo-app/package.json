@@ -1,7 +1,6 @@
 {
   "name": "todo-manager",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,ejs",
@@ -43,5 +42,6 @@
     "prettier": "^2.7.1",
     "sequelize-cli": "^6.4.1",
     "supertest": "^6.2.4"
-  }
+  },
+  "description": ""
 }
