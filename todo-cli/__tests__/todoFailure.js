@@ -1,5 +1,5 @@
 // __tests__/todo.js
-let todoList = require("../todo");
+let todoList = require("../todoFailure");
 
 const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
 /* eslint-disable no-undef */
